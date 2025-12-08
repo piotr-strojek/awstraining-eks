@@ -5,7 +5,7 @@ module "eks_managed_node_group" {
 
   name                              = "default"
   cluster_name                      = var.eks_cluster_name
-  cluster_version                   = local.eks_cluster_version
+  kubernetes_version                = local.eks_cluster_version
   subnet_ids                        = module.vpc.private_subnets
   cluster_primary_security_group_id = module.eks.cluster_primary_security_group_id
   vpc_security_group_ids            = [module.eks.node_security_group_id]
