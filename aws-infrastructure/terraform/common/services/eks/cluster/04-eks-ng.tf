@@ -1,6 +1,6 @@
 module "eks_managed_node_group" {
   source     = "terraform-aws-modules/eks/aws//modules/eks-managed-node-group"
-  version    = "~> 20.5.0"
+  version    = "~> 21.0"
   depends_on = [null_resource.next]
 
   name                              = "default"
