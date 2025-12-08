@@ -22,7 +22,7 @@ variable "private_subnet_cidrs" {
   type = list(string)
 }
 
-variable = cluster_service_cidr {
+variable "cluster_service_cidr" {
     description = "The CIDR block where Kubernetes pod and service IP addresses are assigned from"
     type = string
 }
