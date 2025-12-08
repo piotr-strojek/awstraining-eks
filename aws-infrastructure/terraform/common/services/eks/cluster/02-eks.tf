@@ -12,6 +12,7 @@ module "eks" {
   subnet_ids                               = module.vpc.private_subnets
   control_plane_subnet_ids                 = module.vpc.public_subnets
   enable_cluster_creator_admin_permissions = true
+  cluster_service_cidr                     = var.cluster_service_cidr
 
   node_security_group_additional_rules = {
     allowPublicSubnet = {
