@@ -13,6 +13,10 @@ module "eks_managed_node_group" {
   iam_role_additional_policies = {
     ebs = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
   }
+  
+  ami_type       = "AL2023_x86_64_STANDARD"
+  disk_size      = 20
+  
   min_size     = var.eks_number_of_nodes
   max_size     = var.eks_number_of_nodes
   desired_size = var.eks_number_of_nodes
