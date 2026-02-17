@@ -15,8 +15,8 @@ on:
         required: true
         type: choice
         options:
-          - 'ecs'
           - 'eks'
+          - 'ecs'
 
 
 jobs:

@@ -72,6 +72,18 @@ delete_log_groups() {
   awk '{print $2}' | grep -v ^$ | while read x; do  echo "deleting $x" ; aws logs delete-log-group --log-group-name $x --region $REGION --profile $PROFILE; done || true
 }
 
+delete_ingress() {
+  echo "Checking if person-ingress exists..."
+  if kubectl get ingress person-ingress -n default 2>/dev/null; then
+    echo "Deleting person-ingress..."
+    kubectl delete ingress person-ingress -n default || true
+    echo "Waiting for ingress to be fully deleted..."
+    sleep 120
+  else
+    echo "No person-ingress found, skipping deletion"
+  fi
+}
+
 if [ "$#" -lt 5 ]; then
   echo "Not enough arguments provided."
   echo
@@ -105,6 +117,8 @@ if [ "$ACTION" = "destroy -auto-approve" ]; then
 
       echo "Loading Kubernetes config from EKS"
       aws eks update-kubeconfig --name backend-eks --profile $PROFILE --region $REGION
+
+      delete_ingress
 
       terraform init -backend-config "bucket=${TF_STATE_BUCKET_EKS}" -backend-config "key=eks" -backend-config "region=${REGION}" -backend-config "profile=${PROFILE}" -var profile=${PROFILE} -var region=${REGION}
       terraform destroy -var="region=$REGION" -var="profile=$PROFILE" -auto-approve
