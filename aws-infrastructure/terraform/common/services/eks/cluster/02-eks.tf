@@ -13,15 +13,6 @@ module "eks" {
   control_plane_subnet_ids                 = module.vpc.public_subnets
   enable_cluster_creator_admin_permissions = true
 
-  cluster_addons = {
-    vpc-cni = {
-      most_recent = true
-    }
-    kube-proxy = {
-      most_recent = true
-    }
-  }
-
   node_security_group_additional_rules = {
     allowPublicSubnet = {
       description = "allow traffic from public subnets"
