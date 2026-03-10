@@ -34,3 +34,24 @@ module "eks" {
 
   tags = merge(local.mandatory_tags, {})
 }
+
+# VPC CNI addon - required for pod networking
+resource "aws_eks_addon" "vpc_cni" {
+  cluster_name      = module.eks.cluster_name
+  addon_name        = "vpc-cni"
+  addon_version     = "v1.18.1-eksbuild.3"
+  resolve_conflicts_on_create = "OVERWRITE"
+  resolve_conflicts_on_update = "OVERWRITE"
+
+  depends_on = [module.eks]
+}
+
+# Kube-proxy addon
+resource "aws_eks_addon" "kube_proxy" {
+  cluster_name      = module.eks.cluster_name
+  addon_name        = "kube-proxy"
+  resolve_conflicts_on_create = "OVERWRITE"
+  resolve_conflicts_on_update = "OVERWRITE"
+
+  depends_on = [module.eks]
+}
